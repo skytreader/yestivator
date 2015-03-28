@@ -9,10 +9,10 @@ class QuoteSource(object):
     """
     
     def __init__(self):
-        self.quotes = json.load("~/.yestivator_quotes")
+        self.quotes = json.load(open("/home/chad/.yestivator_quotes"))
 
     def get_quote(self):
-        return choice.random(self.quotes)
+        return random.choice(self.quotes)
 
 class Yestivator(object):
     
@@ -22,9 +22,10 @@ class Yestivator(object):
         pynotify.init("Basic")
 
     def run(self):
-        time.sleep(self.freq)
-        notif = pynotify.Notification("YES", self.quote_source.get_quote())
-        notif.show()
+        while True:
+            notif = pynotify.Notification("YES", self.quote_source.get_quote())
+            notif.show()
+            time.sleep(self.freq)
 
 if __name__ == "__main__":
     quotes = QuoteSource()
