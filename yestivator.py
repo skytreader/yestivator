@@ -35,12 +35,12 @@ class Yestivator(Daemon):
     def run(self):
         try:
             logger.info("Notifying " + str(self.is_running()))
-            notif = pynotify.Notification("YES", self.quote_source.get_quote())
-            notif.show()
+            #notif = pynotify.Notification("YES", self.quote_source.get_quote())
+            #notif.show()
             logger.info("showed")
             time.sleep(self.freq)
         except e:
-            logger.error(e)
+            logger.error("Error encountered", e)
 
 if __name__ == "__main__":
     quotes = QuoteSource()
