@@ -1,8 +1,13 @@
-import daemon
 import json
 import pynotify
 import random
+import sys
 import time
+
+sys.path.append("./python-daemon")
+print sys.path
+
+from daemon import Daemon
 
 class QuoteSource(object):
     """
@@ -15,9 +20,10 @@ class QuoteSource(object):
     def get_quote(self):
         return random.choice(self.quotes)
 
-class Yestivator(object):
+class Yestivator(Daemon):
     
     def __init__(self, quote_source, freq):
+        super(Yestivator, self).__init__("pidfile.pid")
         self.quote_source = quote_source
         self.freq = freq
         pynotify.init("Basic")
@@ -33,5 +39,4 @@ class Yestivator(object):
 if __name__ == "__main__":
     quotes = QuoteSource()
     yessarian = Yestivator(quotes, 8)
-    with daemon.DaemonContext():
-        yessarian.run()
+    yessarian.start()
