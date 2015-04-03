@@ -5,7 +5,6 @@ import sys
 import time
 
 sys.path.append("./python-daemon")
-print sys.path
 
 from daemon import Daemon
 
@@ -29,14 +28,17 @@ class Yestivator(Daemon):
         pynotify.init("Basic")
 
     def run(self):
-        while True:
-            print "Notifying"
-            notif = pynotify.Notification("YES", self.quote_source.get_quote())
-            notif.show()
-            print "showed"
-            time.sleep(self.freq)
+        print "Notifying"
+        notif = pynotify.Notification("YES", self.quote_source.get_quote())
+        notif.show()
+        print "showed"
+        #time.sleep(self.freq)
 
 if __name__ == "__main__":
     quotes = QuoteSource()
     yessarian = Yestivator(quotes, 8)
     yessarian.start()
+
+    while yessarian.is_running():
+        print "Running..."
+    #yessarian.run()
