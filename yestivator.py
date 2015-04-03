@@ -1,4 +1,5 @@
 import json
+import logging
 import pynotify
 import random
 import sys
@@ -7,6 +8,10 @@ import time
 sys.path.append("./python-daemon")
 
 from daemon import Daemon
+
+logging.basicConfig(filename="yestivator.log")
+logger = logging.getLogger("yes")
+logger.setLevel(logging.INFO)
 
 class QuoteSource(object):
     """
@@ -28,11 +33,14 @@ class Yestivator(Daemon):
         pynotify.init("Basic")
 
     def run(self):
-        print "Notifying"
-        notif = pynotify.Notification("YES", self.quote_source.get_quote())
-        notif.show()
-        print "showed"
-        #time.sleep(self.freq)
+        try:
+            logger.info("Notifying " + str(self.is_running()))
+            notif = pynotify.Notification("YES", self.quote_source.get_quote())
+            notif.show()
+            logger.info("showed")
+            time.sleep(self.freq)
+        except e:
+            logger.error(e)
 
 if __name__ == "__main__":
     quotes = QuoteSource()
@@ -40,5 +48,5 @@ if __name__ == "__main__":
     yessarian.start()
 
     while yessarian.is_running():
-        print "Running..."
+        logger.info("Running...")
     #yessarian.run()
