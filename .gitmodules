@@ -1,3 +1,4 @@
 [submodule "python-daemon"]
 	path = python-daemon
 	url = https://github.com/serverdensity/python-daemon.git
+    ignore = dirty
